@@ -39,6 +39,26 @@ fn build_scores_table(results: String) -> HashMap<String, Team> {
         // will be the number of goals conceded by team_2, and similarly
         // goals scored by team_2 will be the number of goals conceded by
         // team_1.
+
+        //Some se utiliza para obtener el valor asociado o en su defecto None
+        if let Some(team_1) = scores.get_mut(&team_1_name) {
+            // Si existe, actualizar los goles marcados y concedidos
+            team_1.goals_scored += team_1_score;
+            team_1.goals_conceded += team_2_score;
+        } else {
+            // Si no existe, insertar un nuevo equipo en scores
+            scores.insert(team_1_name, Team{goals_scored: team_1_score, goals_conceded: team_2_score});
+        }
+        
+        // Verificar si el equipo 2 ya existe en scores
+        if let Some(team_2) = scores.get_mut(&team_2_name) {
+            // Si existe, actualizar los goles marcados y concedidos
+            team_2.goals_scored += team_2_score;
+            team_2.goals_conceded += team_1_score;
+        } else {
+            // Si no existe, insertar un nuevo equipo en scores
+            scores.insert(team_2_name, Team{goals_scored: team_2_score, goals_conceded: team_1_score});
+        }
     }
     scores
 }
